@@ -1,2 +1,4 @@
 # target-practice
-A little processing sketch that tests your mouse accuracy and speed
+CLick the circles before they dissapear!
+A small course project from 2018.
+Click [here](https://www.openprocessing.org/sketch/598151) to try it out
