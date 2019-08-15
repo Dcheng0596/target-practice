@@ -34,16 +34,19 @@ float gFactorROC; // The rate at which the growth rate increases
 
 color bgClr;
 
+boolean gamestart;
 boolean gameover;
 
 void setup()
 {
-  size(800, 600);
+  
+  size(720, 480);
   bgClr = color(255, 255, 255);
   background(bgClr);
   
   ellipseMode(RADIUS);
   gameover = false;
+  gamestart = true;
   
   gArry = new ArrayList<ClrEllipse>();
   sArry = new ArrayList<ClrEllipse>();
@@ -66,14 +69,18 @@ void setup()
 
 void draw()
 {
-  spawner();
+  if(gamestart)
+     startScreen();
+  else {
+    spawner();
  
-  background(bgClr);
+    background(bgClr);
  
-  grow();
-  shrink();
-  if(gameover)
-     gameOverScreen();
+    grow();
+    shrink();
+    if(gameover)
+       gameOverScreen();
+  }
 }
 
 // Checks whether the mouse click was within any of the current ellipses 
@@ -104,6 +111,22 @@ void mousePressed()
   }
 }
 
+void startScreen()
+{
+  fill(0, 0 ,0);
+  textSize(70);
+  textAlign(CENTER, CENTER);
+  text("Target Practice", width/2, height/4);
+
+  ClrEllipse e = new ClrEllipse(color(0, 255, 0), 360, 302, 60);
+  e.draw();
+     
+  fill(0, 0 ,0);
+  textSize(30);
+  text("START", width/2, height/1.61);
+  if(mousePressed && dist(mouseX, mouseY, e.p.x, e.p.y) <= e.radius) 
+       gamestart = false;;
+}
 // Displays the gameover screen with the score and an option to restart the game
 void gameOverScreen()
 {
@@ -119,7 +142,7 @@ void gameOverScreen()
   textSize(50);
   text("Score <" + score + ">" , width/2, height/2.7);
  
-  ClrEllipse e = new ClrEllipse(color(0, 255, 0), 400, 375, 60);
+  ClrEllipse e = new ClrEllipse(color(0, 255, 0), 360, 302, 60);
   e.draw();
      
   fill(0, 0 ,0);
@@ -129,6 +152,7 @@ void gameOverScreen()
   // Checks if the retry button was pressed
   if(mousePressed && dist(mouseX, mouseY, e.p.x, e.p.y) <= e.radius) 
        setup();
+  gamestart = false;
 }
 
 // Adds ellipses to the growing array with radius 1 according to the spawn rate
